@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ title }}-页面 </title>
+<link rel="stylesheet" type="text/css" href="/static/jquery_plugin/jquery-easyui-1.2.4/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/jquery_plugin/jquery-easyui-1.2.4/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css">
+<script src="/static/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+<script src="/static/jquery_plugin/jquery-easyui-1.2.4/jquery.easyui.min.js" type="text/javascript"></script>
+<script src="/static/jquery_plugin/jquery-easyui-1.2.4/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+
+
+<style type="text/css">
+body{ font-size:62.5%;font-family:"微软雅黑",Verdana, Geneva, sans-serif;}
+
+</style>
+</head>
+
+<body>
+
+
+<script type="text/javascript">
+var products = [
+
+            {productid:'FI-SW-01',name:'Koi'},
+
+            {productid:'K9-DL-01',name:'Dalmation'},
+
+            {productid:'RP-SN-01',name:'Rattlesnake'},
+
+            {productid:'RP-LI-02',name:'Iguana'},
+
+            {productid:'FL-DSH-01',name:'Manx'},
+
+            {productid:'FL-DLH-02',name:'Persian'},
+
+            {productid:'AV-CB-01',name:'Amazon Parrot'}
+
+        ];
+
+        function formatProduct(value){
+
+            for(var i=0; i<products.length; i++){
+
+                if (products[i].productid == value) return products[i].name;
+
+            }
+
+            return value;
+
+        }
+
+        $(function(){
+
+            $('#tt').datagrid({
+
+                onLoadSuccess:function(){
+
+                    var merges = [{
+
+                        index:2,
+
+                        rowspan:2
+
+                    },{
+
+                        index:5,
+
+                        rowspan:2
+
+                    },{
+
+                        index:7,
+
+                        rowspan:2
+
+                    }];
+
+                    for(var i=0; i<merges.length; i++)
+
+                        $('#tt').datagrid('mergeCells',{
+
+                            index:merges[i].index,
+
+                            field:'productid',
+
+                            rowspan:merges[i].rowspan
+
+                        });
+
+                }
+
+            });
+
+        });
+
+
+</script>
+
+
+
+<table id="tt" title="嵌套表格" style="width:700px;height:250px"
+
+            url="/static/db.json"
+
+            singleSelect="true" iconCls="icon-save" rownumbers="true"
+
+            idField="itemid" pagination="true">
+
+        <thead frozen="true">
+
+            <tr>
+
+                <th field="productid" width="120" formatter="formatProduct">产品ID</th>
+
+                <th field="itemid" width="100">货物ID</th>
+
+            </tr>
+
+        </thead>
+
+        <thead>
+
+            <tr>
+
+                <th colspan="2">价格</th>
+
+                <th rowspan="2" field="attr1" width="250">属性</th>
+
+                <th rowspan="2" field="status" width="60" align="center">状态</th>
+
+            </tr>
+
+            <tr>
+
+                <th field="listprice" width="80" align="right">list价格</th>
+
+                <th field="unitcost" width="80" align="right">单位</th>
+
+            </tr>
+
+        </thead>
+
+    </table>
+
+</body>
+</html>

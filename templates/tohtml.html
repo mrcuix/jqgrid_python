@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ title }}-页面 </title>
+<script src="/static/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+body{ font-size:62.5%;font-family:"微软雅黑",Verdana, Geneva, sans-serif;}
+.select{ border-color:#a5c760; background-color:#f4ffd4;}
+
+input, textarea {
+border-color: #C4C7BD #EFEFEF #F2F2F2 #D2D5CA;
+border-style: solid;
+border-width: 1px;
+color: #333;
+height:20px;
+}
+input, textarea, select {
+}
+fieldset { padding:0; border:0; margin-top:25px; }
+.ui-dialog .ui-state-error { padding: .3em; }
+		.validateTips { border: 1px solid transparent; padding: 0.3em; }
+		#confirm-txt{ color:Red;}
+		#confirm-txt li{ margin-left:30px;}
+
+
+.formbg{ background:url(../images/bg.jpg) repeat-x bottom #FFF; }
+table { text-align:center; }
+table td{ text-align:center; }
+/*.formbg td {
+font-size: 12px;
+border-right: 1px dotted #CCC;
+border-bottom: 1px dotted #CCC;
+overflow: hidden;
+padding: 0;
+margin: 0;
+}
+*/
+.tdr {
+font-size: 12px;
+border-right: 1px solid #CCC;
+border-bottom: 1px solid #CCC;
+overflow: hidden;
+padding: 0;
+margin: 0;
+}
+/*
+.formbg{ border-collapse:collapse; }
+.formbg td{ border:#666666 solid 1px; text-align: center;}
+.formNobg td{ border:#F2F2F2 solid 0px;  padding:8px; }
+.tabletitle { padding: 8px; text-align: center;}
+.tabletitle_Left { padding: 8px; text-align: left;}
+*/
+</style>
+
+<script type="text/javascript">
+$(function(){
+    $('#box').find("td").css({"border-right":"1px solid #CCC","border-bottom":"1px solid #CCC"});
+    
+
+    //alert(tb.find('tr').html())
+    //tb.find('tr').lt(tb.find('tr').length).find('td')..css({"border-color":"#a5c760"})
+    //$('#box table table table').find('tr').find('td').css({"border-color":"#a5c760"});
+    //$('#box1 table').find('td').css({"border-color":"#a5c760"});
+    
+    //alert($('#box1 table:eq(0) table:eq(1)').html());
+
+    var eq1 =$('.box1 table').length;
+    
+    for (i=0;i<eq1;i++){
+        $('.box1 table:eq('+i+') table:last td').css({/*"background-color":"#f4ffd4",*/"border-bottom":"none"});
+
+    }
+
+
+    for(i=1;i<={{ zb1count }};i++)
+    {
+        $('#box/tr:eq('+i+') td:eq(1)').css({"background-color":"#f4ffd4","border-bottom":"none","border-right":"none"});
+    }
+
+    $('#box/tr:eq(1) td:eq(1)').css({"background-color":"#f4ffd4","border-bottom":"none","border-right":"none"});
+
+
+    for(i=0;i<{{ zb2count }};i++)
+    {
+        $('.box1/tr:eq('+i+') td:eq(1)').css({"border-bottom":"none","border-right":"none"});
+    }
+
+    $("#tz2").width($(".z2").width());
+    $("#tz3").css({width:$(".z3").width()});
+    //$("#tz3").width($("#z3").width());
+    alert($(".z2").width()+','+$("#tz2").width());
+    $(".ibox").click(function(){
+        $(this).animate({left: '+50px'}, 800 );
+
+
+    });
+
+});
+</script>
+
+</head>
+
+<body>
+
+
+<div></div>
+
+<table id="box" width="1004" border="0" align="center" cellpadding="0" cellspacing="0" class="formbg" style="border-left: 1px solid #CCC;border-top: 1px solid #CCC;">
+<tr>
+<td style="width: 100px;"> 一级指标 </td><td id="tz2"> 二级指标 </td><td id="tz3"> 三级指标 </td><td style="width: 300px;"> 评估标准 </td><td width="50"> 分值 </td> <td width="100">评分标准</td> <td width="100"> 评价方法 </td><td width="50" > 自评 </td><td width="100"> 备注 </td
+</tr>
+{% for z1 in zb1%}
+<tr>
+<td style="width: 80px;" > {{z1.name+'<br/>'+z1.des}} </td><td colspan="8"> 
+
+{% for z2 in zb2 if z2.fid==z1.id %}
+<table  class="box1" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td style="width: 80px;" class="z2" > {{z2.name+'<br/>'+z2.des}} </td><td> 
+
+
+{% for z3 in zb3 if z3.fid==z2.id %}
+<table  id="box2" width="100%" border="0" cellspacing="0" cellpadding="0" >
+<tr>
+<td style="width: 80px;" class="z3" > {{z3.name+'<br/>'+z3.des}} </td><td> 
+{% for row,r in db if row.zbid==z3.id %}
+<table  id="box3" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td style="width: 300px; padding:4px;"  class="tabletitle_Left">{{row.pgnr}} </td><td width="50"  >{{row.fz}} </td><td width="100"  class="tabletitle_Left">{{row.pfbz}} </td><td width="100"  >{{row.pfff}} </td><td width="50"  ><input id="f_f_{{row.id}}"  style="width:50px;"> </td><td width="100"  ><textarea id="f_bz_{{row.id}}" name="" cols="20" rows="10"  style="width:50px;" class="ibox"></textarea> </td>
+</tr>
+</table>
+{% endfor %}
+
+</td>
+</tr>
+</table>
+{% endfor %}
+
+
+</td>
+</tr>
+</table>
+{% endfor %}
+
+ </td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>
